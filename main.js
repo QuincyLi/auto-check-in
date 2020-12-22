@@ -3,26 +3,46 @@ auto.waitFor();
 if (!device.isScreenOn()) {
   device.wakeUpIfNeeded()
   // 解锁界面
-  gesture(500, [300, 1500], [300, 300]);
+  gesture(500, [300, device.height * 0.8], [300, 300]);
 }
 
-var checkTimeGap = 10 * 60 * 1000;
+var checkTimeGap = 60 * 1000;
+
+function hasRecheckBtn() {
+  var recheckBtn = desc("重新打卡").findOnce();
+
+  if (recheckBtn) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function checkTime() {
   setInterval(function () {
     const today = new Date();
-    if (today.getHours() >= 17) {
-      click(738, 1200); //  点击签退
-      sleep(6000); // 加载时间
-      click(500, 2118); // 点击提交按钮
-    }
+    toast(today.getHours());
 
-    if (today.getHours() <= 8 && new Date().getHours() > 7) {
-      click(432, 1200); //  点击签退
-      sleep(6000); // 加载时间
-      click(500, 2118); // 点击提交按钮
-    }
+    if (hasRecheckBtn()) {
+      var recheckBtn = desc("重新打卡").findOnce();
+      recheckBtn.click();
+      sleep(1000)
 
-    app.launchApp("Auto.js");
+      click(device.width / 2, (device.height - 150)) // 点击提交按钮
+    } else {
+      if (today.getHours() >= 17) {
+        click(738, 1200); //  点击签退
+        sleep(6000); // 加载时间
+        click(device.width / 2, (device.height - 150)) // 点击提交按钮
+      }
+
+      if (today.getHours() <= 8 && new Date().getHours() > 7) {
+        click(432, 1200); //  点击签到
+        sleep(6000); // 加载时间
+        click(device.width / 2, (device.height - 150)) // 点击提交按钮
+      }
+      app.launchApp("Auto.js");
+    }
   }, checkTimeGap);
 }
 
@@ -55,7 +75,7 @@ if (checkInItem) {
 
   click(831, 1974); // 点击查看详情
 
-  sleep(9000);
+  sleep(5000);
 
-  click(345, 1611); //  点击签到
+  click(device.width / 2, device.height * 0.8); //  点击签到
 }
