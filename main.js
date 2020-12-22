@@ -83,5 +83,6 @@ if (checkInItem) {
   sleep(3000);
   back();
   back();
+  back();
 }
 
