@@ -6,6 +6,7 @@ if (!device.isScreenOn()) {
   gesture(500, [300, device.height * 0.8], [300, 300]);
 }
 
+
 var checkTimeGap = 60 * 1000;
 
 function hasRecheckBtn() {
@@ -78,4 +79,9 @@ if (checkInItem) {
   sleep(5000);
 
   click(device.width / 2, device.height * 0.8); //  点击签到
+
+  sleep(3000);
+  back();
+  back();
 }
+
